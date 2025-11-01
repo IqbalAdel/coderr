@@ -1,0 +1,73 @@
+from rest_framework import serializers, status
+from rest_framework.response import Response
+# from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+# from django.contrib.auth import authenticate
+
+class RegistrationSerializer(serializers.ModelSerializer):
+    repeated_password = serializers.CharField(write_only = True)
+    type = serializers.ChoiceField(choices=[('customer', 'Customer'), ('business', 'Business')])
+
+    class Meta:
+        model = get_user_model()
+        fields = ['id','username','email','password', 'repeated_password', 'type']
+        extra_kwargs = {
+            'password' : {
+                'write_only': True
+            },
+        }
+    
+    def validate_username(self, value):       
+        value = value.strip()
+        if not value:
+            res = serializers.ValidationError({'detail': 'Username cannot be empty.'}) 
+            res.status_code = 400
+            raise res
+        saved_name = get_user_model().objects.filter(username=value)
+        if value == saved_name:
+            res = serializers.ValidationError({'detail': 'Username already exists'}) 
+            res.status_code = 400
+            raise res
+        
+        return value
+
+    def validate_email(self, value):         
+        if get_user_model().objects.filter(email=value).exists():
+            res = serializers.ValidationError({'detail': 'Email already exists'}) 
+            res.status_code = 400
+            raise res
+        return value
+    
+    def validate_type(self, value):       
+        value = value.strip()
+        if not value:
+            res = serializers.ValidationError({'detail': 'Type cannot be empty.'}) 
+            res.status_code = 400
+            raise res
+        if value not in ['customer', 'business']:
+            res = serializers.ValidationError({'detail': 'Type must be either customer or business.'}) 
+            res.status_code = 400
+            raise res
+    
+
+    def save(self):     
+        pw = self.validated_data['password']
+        repeated_pw = self.validated_data['repeated_password']
+        username = self.validated_data['username']
+        email = self.validated_data['email']
+
+        if not email:
+            res = serializers.ValidationError({'detail': 'Email cannot be empty.'}) 
+            raise res
+
+        if pw != repeated_pw:
+            raise serializers.ValidationError({'detail': 'passwords dont match'}) 
+        
+        account = get_user_model()(email = self.validated_data['email'], username=username)
+        if get_user_model().objects.filter(username=username).exists():
+            serializers.ValidationError({'detail': 'Username already exists'}) 
+        
+        account.set_password(pw)
+        account.save()
+        # profile = UserProfile.objects.create(user=account)
+        return account
