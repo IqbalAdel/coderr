@@ -3,12 +3,20 @@ from django.urls import reverse
 from rest_framework import status
 # from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
+from django.contrib.auth import get_user_model
+from user_auth_app.api.serializers import RegistrationSerializer
 
 
 class RegistrationTests(APITestCase):
     
-    # def setUp(self):
-        # self.user = User.objects.create_user(username='testuser', password='testpassword')
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username='exampleUsername',
+            password='examplePassword',
+            )
+    def test_user_creation(self):
+        self.assertEqual(self.user.username, 'exampleUsername')
+        self.assertEqual(self.user.check_password('examplePassword'), True)
         # self.client = APIClient()
         # self.client.login(username='testuser', password='testpassword')
 
@@ -18,8 +26,8 @@ class RegistrationTests(APITestCase):
 
     def test_register_include_data(self):
         url = reverse('registration')
-        data = {'username':'exampleUsername',
-                'email': 'example@mail.de',
+        data = {'username':'newUsername',
+                'email': 'new@mail.de',
                 'password': 'examplePassword',
                 'repeated_password':'examplePassword',
                 'type': 'business'
@@ -36,8 +44,8 @@ class RegistrationTests(APITestCase):
 
     def test_register_user_happy(self):
         url = reverse('registration')
-        data = {'username':'exampleUsername',
-                'email': 'example@mail.de',
+        data = {'username':'newUsername',
+                'email': 'new@mail.de',
                 'password': 'examplePassword',
                 'repeated_password':'examplePassword',
                 'type': 'business'
@@ -69,5 +77,19 @@ class RegistrationTests(APITestCase):
         response = self.client.post(url, data, format="json")
         # print(response.data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    # def test_response_user_registration(self):
+    #     url = reverse('registration')
+    #     data = {'username':'testuser',
+    #             'email': 'web@dev.com',
+    #             'password': 'testpassword',
+    #             'repeated_password':'testpassword',
+    #             'type': 'customer'
+    #             }
+    #     response = self.client.post(url, data, format="json")
+    #     expected_data = RegistrationSerializer(self.user).data
+
+    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    #     self.assertEqual(response.data, expected_data)
    
    

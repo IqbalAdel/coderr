@@ -2,9 +2,10 @@ from rest_framework import serializers, status
 from rest_framework.response import Response
 # from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-# from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate
 
 class RegistrationSerializer(serializers.ModelSerializer):
+
     repeated_password = serializers.CharField(write_only = True)
     type = serializers.ChoiceField(choices=[('customer', 'Customer'), ('business', 'Business')])
 
@@ -33,7 +34,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     def validate_email(self, value):         
         if get_user_model().objects.filter(email=value).exists():
-            res = serializers.ValidationError({'detail': 'Email already exists'}) 
+            res = serializers.ValidationError('Email already exists') 
             res.status_code = 400
             raise res
         return value
@@ -71,3 +72,23 @@ class RegistrationSerializer(serializers.ModelSerializer):
         account.save()
         # profile = UserProfile.objects.create(user=account)
         return account
+    
+class LoginAuthTokenSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(
+        label="Password",
+        style={'input_type': 'password'},
+        trim_whitespace=False
+    )
+
+    def validate(self, attrs):    
+        password = attrs.get('password')
+        username= attrs.get('username')
+
+        user = authenticate(username=username, password=password)
+        if not user:
+            res = serializers.ValidationError({'detail': 'Invalid username or password.'}) 
+            res.status_code = 400
+            raise res     
+        attrs['user'] = user
+        return attrs

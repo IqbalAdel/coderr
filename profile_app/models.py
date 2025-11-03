@@ -1,3 +1,26 @@
 from django.db import models
+from django.conf import settings
+from django.utils import timezone
 
 # Create your models here.
+
+class Profile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='profile'
+    )
+    username = models.CharField(max_length=150, blank=True, default='')
+    first_name = models.CharField(max_length=150, blank=True, default='', null=False)  # must not be null; default ''
+    last_name = models.CharField(max_length=150, blank=True, default='', null=False)   # must not be null; default ''
+    file = models.CharField(max_length=255, blank=True, default='')        # store filename/path as string
+    location = models.CharField(max_length=255, blank=True, default='', null=False)    # must not be null; default ''
+    tel = models.CharField(max_length=50, blank=True, default='', null=False)          # must not be null; default ''
+    description = models.TextField(blank=True, default='', null=False)                 # must not be null; default ''
+    working_hours = models.CharField(max_length=100, blank=True,null=False, default='')  # must not be null; default ''
+    type = models.CharField(max_length=50, blank=False, null=False)
+    email = models.EmailField(blank=False, null=False)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f'Profile: {self.username or getattr(self.user, "username", "")}'

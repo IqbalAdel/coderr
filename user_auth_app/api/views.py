@@ -1,5 +1,5 @@
 from rest_framework import generics, status
-from .serializers import RegistrationSerializer 
+from .serializers import RegistrationSerializer, LoginAuthTokenSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token 
@@ -34,3 +34,25 @@ class RegistrationView(APIView):
         else:
             data = serializer.errors        
             return Response({'detail': data}, status=status.HTTP_400_BAD_REQUEST) 
+
+class CustomLoginView(ObtainAuthToken):
+    permission_classes = [AllowAny]
+    serializer_class = LoginAuthTokenSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data = request.data)
+
+        data = {}
+        if serializer.is_valid():
+            user = serializer.validated_data['user']
+            token, created = Token.objects.get_or_create(user = user)
+            data = {
+                'token': token.key,
+                'username': user.username,
+                'email': user.email,
+                'user_id': user.id,
+            }
+            return Response(data, status=status.HTTP_200_OK)
+        else:   
+            data = serializer.errors
+            return Response({'detail':data}, status=status.HTTP_400_BAD_REQUEST)
