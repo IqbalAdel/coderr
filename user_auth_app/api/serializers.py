@@ -52,6 +52,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
     
 
     def save(self):     
+        print(self.validated_data)
         pw = self.validated_data['password']
         repeated_pw = self.validated_data['repeated_password']
         username = self.validated_data['username']

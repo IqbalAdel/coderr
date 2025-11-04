@@ -14,6 +14,7 @@ class RegistrationView(APIView):
 
     def post(self, request):
         serializer = RegistrationSerializer(data = request.data)
+        print(request.data)
         if get_user_model().objects.filter(username=request.data.get('username')).exists():
             return Response(
                 {"detail": "Username already exists."},
@@ -22,6 +23,7 @@ class RegistrationView(APIView):
 
         data = {}
         if serializer.is_valid():
+            print("VALIDATED DATA:", serializer.validated_data)
             saved_account = serializer.save()
             token, created = Token.objects.get_or_create(user = saved_account)
             data = {
