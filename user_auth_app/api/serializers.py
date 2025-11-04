@@ -62,6 +62,10 @@ class RegistrationSerializer(serializers.ModelSerializer):
         if not email:
             res = serializers.ValidationError({'detail': 'Email cannot be empty.'}) 
             raise res
+        
+        if not type:
+            res = serializers.ValidationError({'detail': 'Type cannot be empty.'}) 
+            raise res
 
         if pw != repeated_pw:
             raise serializers.ValidationError({'detail': 'passwords dont match'}) 
