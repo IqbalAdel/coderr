@@ -10,7 +10,7 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
         related_name='profile'
     )
-    username = models.CharField(max_length=150, blank=True, default='')
+    username = models.CharField(max_length=150, blank=False, null=False)
     first_name = models.CharField(max_length=150, blank=True, default='', null=False)  # must not be null; default ''
     last_name = models.CharField(max_length=150, blank=True, default='', null=False)   # must not be null; default ''
     file = models.CharField(max_length=255, blank=True, default='')        # store filename/path as string
@@ -21,6 +21,25 @@ class Profile(models.Model):
     type = models.CharField(max_length=50, blank=False, null=False)
     email = models.EmailField(blank=False, null=False)
     created_at = models.DateTimeField(default=timezone.now)
+
+    def clean(self):
+        super().clean()
+        if not self.username.strip():
+            raise ValueError("Username cannot be empty.")
+        if not self.email.strip():
+            raise ValueError("Email cannot be empty.")
+        if not self.type.strip():
+            raise ValueError("Type cannot be empty.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        if self.user:
+            if self.username and self.username != self.user.username:
+                self.user.username = self.username
+            if self.email and self.email != self.user.email:
+                self.user.email = self.email
+            self.user.save()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'Profile: {self.username or getattr(self.user, "username", "")}'
