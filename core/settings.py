@@ -11,17 +11,20 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-# from secret_key import SECRETKEY
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = SECRETKEY
+SECRET_KEY = 'django-insecure-ri7xt)h@*jp0!)ucw6w(vtc(qehpcyv05)ca4%kw#&rl7xf%ll'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -45,8 +48,8 @@ INSTALLED_APPS = [
     'order_app',
     'profile_app',
     'review_app',
-    # 'django_filters'
-    'users'
+    'django_filters',
+    'users',
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -86,8 +89,8 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.sqlite3',  # Use SQLite as the database backend
+        'NAME': BASE_DIR / 'db.sqlite3',        # SQLite database file
     }
 }
 
@@ -140,7 +143,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
-    # 'DEFAULT_FILTER_BACKENDS': [
-    #     'django_filters.rest_framework.DjangoFilterBackend'
-    #     ]
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+        ,
+    ]
+
 }

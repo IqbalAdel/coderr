@@ -3,6 +3,7 @@ from rest_framework.response import Response
 # from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
+from profile_app.models import Profile
 
 class RegistrationSerializer(serializers.ModelSerializer):
 
@@ -49,7 +50,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
             res = serializers.ValidationError({'detail': 'Type must be either customer or business.'}) 
             res.status_code = 400
             raise res
-    
+        return value
 
     def save(self):     
         print(self.validated_data)
@@ -76,7 +77,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         account = get_user_model()(email = self.validated_data['email'], username=username, type=type)
         account.set_password(pw)
         account.save()
-        # profile = UserProfile.objects.create(user=account)
+        profile = Profile.objects.create(user=account, username=username, email=email, type=type)
         return account
     
 class LoginAuthTokenSerializer(serializers.Serializer):

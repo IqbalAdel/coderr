@@ -13,7 +13,7 @@ class Profile(models.Model):
     username = models.CharField(max_length=150, blank=False, null=False)
     first_name = models.CharField(max_length=150, blank=True, default='', null=False)  # must not be null; default ''
     last_name = models.CharField(max_length=150, blank=True, default='', null=False)   # must not be null; default ''
-    file = models.CharField(max_length=255, blank=True, default='')        # store filename/path as string
+    file = models.FileField(blank=True, null=True, default='', upload_to='uploads/')        # store filename/path as string
     location = models.CharField(max_length=255, blank=True, default='', null=False)    # must not be null; default ''
     tel = models.CharField(max_length=50, blank=True, default='', null=False)          # must not be null; default ''
     description = models.TextField(blank=True, default='', null=False)                 # must not be null; default ''
