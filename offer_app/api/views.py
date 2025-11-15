@@ -32,7 +32,7 @@ class OffersListView(generics.ListCreateAPIView):
     queryset = Offer.objects.all()
     permission_classes = [OfferPermissions]
     filterset_class = OfferFilter
-    pagination_class = [StandardResultsSetPagination]
+    pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend, drf_filters.SearchFilter, drf_filters.OrderingFilter]
     search_fields = ['title', 'description']
     ordering_fields = ['updated_at', 'min_price']

@@ -68,10 +68,12 @@ class OfferListSerializer(serializers.ModelSerializer):
     details = DetailHyperSerializer(many=True)
     min_price = serializers.SerializerMethodField()
     min_delivery_time = serializers.SerializerMethodField()
+    created_at = serializers.DateTimeField(read_only=True)
+    updated_at = serializers.DateTimeField(read_only=True)
     
     class Meta:
         model = Offer
-        fields = ['id','user', 'title', 'image', 'description', 'details', 'min_price', 'min_delivery_time', 'user_details']
+        fields = ['id','user', 'title', 'image', 'description','created_at','updated_at', 'details', 'min_price', 'min_delivery_time', 'user_details']
 
     def get_min_price(self, obj):
         details = obj.details.all()
