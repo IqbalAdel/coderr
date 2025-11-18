@@ -27,4 +27,4 @@ class StatsView(generics.ListAPIView):
                 "average_rating": average_rating,
                 "business_profile_count": profile_count,
                 "offer_count": offer_count
-            }, status=status.HTTP_200_OK)
+            })

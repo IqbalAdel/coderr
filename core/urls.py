@@ -23,12 +23,12 @@ from .views import StatsView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth', include('rest_framework.urls')),
+    path('api/base-info/', StatsView.as_view(), name='stats'),
     path('api/', include('user_auth_app.api.urls')),
     path('api/', include('profile_app.api.urls')),
     path('api/', include('offer_app.api.urls')),
     path('api/', include('order_app.api.urls')),
     path('api/', include('review_app.api.urls')),
-    path('api/base-info/', StatsView.as_view(), name='stats'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

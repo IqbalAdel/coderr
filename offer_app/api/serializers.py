@@ -9,6 +9,9 @@ class DetailSerializer(serializers.ModelSerializer):
     Handles validation and serialization of Offer-Detail data.
     """
     offer_type = serializers.ChoiceField(choices=[('basic', 'Basic'), ('standard', 'Standard'), ('premium', 'Premium')], required=True)
+    revisions = serializers.IntegerField()
+    price = serializers.IntegerField()
+    delivery_time_in_days = serializers.IntegerField()
     class Meta:
         model = OfferDetail
         fields = ['id','title','revisions', 'delivery_time_in_days', 'price', 'features', 'offer_type']
@@ -140,7 +143,9 @@ class OfferUpdateSerializer(serializers.ModelSerializer):
 
         details_data = validated_data.get('details', [])
         for detail_data in details_data:
-            offer_type = detail_data['offer_type']
+            offer_type = detail_data.get('offer_type')
+            if not offer_type: 
+                raise serializers.ValidationError({"details": "Each detail must include 'offer_type'."})
             try:
                 offer_detail = instance.details.get(offer_type=offer_type)
             except OfferDetail.DoesNotExist:
