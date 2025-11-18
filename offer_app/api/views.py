@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from ..models import Offer, OfferDetail
-from .permissions import OfferPermissions
+from .permissions import OfferPermissions, OffersListPermission
 from .paginations import StandardResultsSetPagination
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
@@ -38,7 +38,7 @@ class OffersListView(generics.ListCreateAPIView):
     Lists all Offers made by Business users. Includes Custom Pagination, Search, Ordering and Filter.
     """
     queryset = Offer.objects.all()
-    permission_classes = [OfferPermissions]
+    permission_classes = [OffersListPermission]
     filterset_class = OfferFilter
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend, drf_filters.SearchFilter, drf_filters.OrderingFilter]

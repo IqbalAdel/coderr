@@ -24,3 +24,20 @@ class OfferPermissions(BasePermission):
         elif request.method in ['PUT', 'PATCH', 'DELETE']:
             return obj.user == request.user and request.user and request.user.is_authenticated
         return False
+    
+class OffersListPermission(BasePermission):
+    """
+    Custom permission to allow:
+    - Anyone to read (GET, HEAD, OPTIONS) for List, requires authentication for object view
+    - Business user to update (PUT, PATCH) his own offer only
+    - Permission for POST (Business users) or DELETE (offer creator)
+    """
+
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
+        elif request.method == 'POST':
+            return request.user and request.user.is_authenticated and request.user.type == 'business'
+        elif request.method in ['PUT', 'PATCH', 'DELETE']:
+            return request.user and request.user.is_authenticated
+        return False
