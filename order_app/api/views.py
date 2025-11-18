@@ -46,7 +46,7 @@ class OrderCountView(generics.RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         pk = self.kwargs.get('pk')
         business_user = get_object_or_404(get_user_model(), pk=pk, type="business")
-        order_count = business_user.received_orders.count()
+        order_count = business_user.received_orders.filter(status='in_progress').count()
         return Response({'order_count': order_count})
     
 class CompletedOrderCountView(generics.RetrieveAPIView):

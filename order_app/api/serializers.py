@@ -22,7 +22,7 @@ class OrderSerializer(serializers.ModelSerializer):
     price = serializers.DecimalField(source='offer_detail.price', max_digits=10, decimal_places=0, read_only=True)
     features = serializers.JSONField(source='offer_detail.features', read_only=True)
     offer_type = serializers.CharField(source='offer_detail.offer_type', read_only=True)
-    status = serializers.ChoiceField(choices=[('pending', 'Pending'), ('in_progress', 'In Progress'), ('completed', 'Completed'), ('cancelled', 'Cancelled')], default='pending')
+    status = serializers.ChoiceField(choices=[('pending', 'Pending'), ('in_progress', 'In Progress'), ('completed', 'Completed'), ('cancelled', 'Cancelled')], default='in_progress')
     class Meta:
         model = Order
         fields = ['id', 
