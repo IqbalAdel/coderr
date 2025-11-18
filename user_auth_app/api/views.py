@@ -8,6 +8,11 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from django.contrib.auth import get_user_model
 
 class RegistrationView(APIView):
+    """
+    API endpoint for registering new users.
+
+    Handles creation of user accounts, including username validation. Returns the created user data.
+    """
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -36,6 +41,13 @@ class RegistrationView(APIView):
             return Response({'detail': data}, status=status.HTTP_400_BAD_REQUEST) 
 
 class CustomLoginView(ObtainAuthToken):
+    """
+    API endpoint for obtaining authentication tokens for users.
+
+    Inherits from DRF's `ObtainAuthToken` and can be customized to add
+    additional logic if needed (e.g., returning user details alongside the token).
+    """
+    
     permission_classes = [AllowAny]
     serializer_class = LoginAuthTokenSerializer
 

@@ -5,7 +5,17 @@ from django.contrib.auth import authenticate
 from profile_app.models import Profile
 
 class RegistrationSerializer(serializers.ModelSerializer):
+    """
+    Serializer for registering new users.
+    Handles validation, creation, and serialization of User data.
 
+    Fields:
+        id (int): Read-only. Unique identifier of the user.
+        username (str): username of the user.
+        email (str): Email address of the user. Must be unique.
+        password (str): User's password. Write-only.
+        repeated_password (str): Confirmation of the password. Write-only; must match `password`.
+    """
     repeated_password = serializers.CharField(write_only = True)
     type = serializers.ChoiceField(choices=[('customer', 'Customer'), ('business', 'Business')])
 
@@ -80,6 +90,15 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return account
     
 class LoginAuthTokenSerializer(serializers.Serializer):
+    """
+    Serializer for loggin in users.
+    Handles validation and serialization of User data.
+
+    Fields:
+        username (str): username of the user. Must be unique.
+        password (str): User's password. Write-only.
+    """
+
     username = serializers.CharField()
     password = serializers.CharField(
         label="Password",

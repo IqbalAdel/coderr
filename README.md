@@ -35,8 +35,8 @@ The following steps work on **Windows, macOS, and Linux**.
 
 ### 1️⃣ Clone the repository
 ```bash
-git clone https://github.com/<your-username>/KanMind.git
-cd KanMind
+git clone https://github.com/IqbalAdel/coderr.git
+cd coderr
 ```
 
 ### 2️⃣ Create a virtual environment

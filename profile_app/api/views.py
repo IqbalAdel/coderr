@@ -17,6 +17,11 @@ class ProfileDetailView(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated, ProfileEditPermission]
 
 class ProfileBusinessListView(generics.ListAPIView):
+    """
+    API endpoint for view of Business Profiles .
+
+    Lists Business Profiles where the user is authenticated user
+    """
     serializer_class = ProfileBusinessSerializer
     permission_classes = [IsAuthenticated]
 
@@ -26,6 +31,11 @@ class ProfileBusinessListView(generics.ListAPIView):
         return queryset
 
 class ProfileCustomerListView(generics.ListAPIView):
+    """
+    API endpoint for view of Customer Profiles .
+
+    Lists Customer Profiles where the user is authenticated user
+    """
     serializer_class = ProfileCustomerSerializer
     permission_classes = [IsAuthenticated]
     

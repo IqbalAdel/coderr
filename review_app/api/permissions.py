@@ -4,9 +4,9 @@ from rest_framework.exceptions import NotFound, PermissionDenied
 class ReviewPermissions(BasePermission):
     """
     Custom permission to allow:
-    - Anyone to read (GET, HEAD, OPTIONS)
-    - Owners to update (PUT, PATCH)
-    - No permission for POST or DELETE
+    - Anyone with authentication to read (GET, HEAD, OPTIONS)
+    - Reviewer to update (PUT, PATCH) his own review only
+    - Permission for POST (Customer users) or DELETE (review creator)
     """
 
     def has_permission(self, request, view):

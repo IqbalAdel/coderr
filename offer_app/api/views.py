@@ -12,6 +12,9 @@ from rest_framework import filters as drf_filters
 from django.db.models import Min
 
 class OfferFilter(filters.FilterSet):
+    """
+    Custom-Filter for offer-list objects, optional for the creator_id, min_price and max_delivery_time 
+    """
     creator_id = filters.NumberFilter(field_name='user__id', lookup_expr='exact')
     min_price = filters.NumberFilter(method='filter_min_price')
     max_delivery_time = filters.NumberFilter(method='filter_max_delivery_time')
@@ -29,6 +32,11 @@ class OfferFilter(filters.FilterSet):
         return queryset.filter(details__delivery_time_in_days__lte=value).distinct()
 
 class OffersListView(generics.ListCreateAPIView):
+    """
+    API endpoint for listing Offers.
+
+    Lists all Offers made by Business users. Includes Custom Pagination, Search, Ordering and Filter.
+    """
     queryset = Offer.objects.all()
     permission_classes = [OfferPermissions]
     filterset_class = OfferFilter
@@ -55,6 +63,12 @@ class OffersListView(generics.ListCreateAPIView):
         return queryset
 
 class OffersDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    API endpoint for view of specific Offers.
+
+    Lists specific Offers where the user is authenticated user,
+    and allows updating, deleting an offer where the requesting user is set as the business user who made the offer.
+    """
     queryset = Offer.objects.all()
     permission_classes = [OfferPermissions]
 
@@ -64,6 +78,11 @@ class OffersDetailView(generics.RetrieveUpdateDestroyAPIView):
         return OfferUpdateSerializer
 
 class DetailsView(generics.RetrieveAPIView):
+    """
+    API endpoint for view of specific Offer-Details.
+
+    Lists specific Offer-Details where the user is authenticated user.
+    """
     queryset = OfferDetail.objects.all()
     serializer_class = DetailSerializer
     permission_classes = [IsAuthenticated]

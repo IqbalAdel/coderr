@@ -4,9 +4,9 @@ from rest_framework.exceptions import NotFound, PermissionDenied
 class OfferPermissions(BasePermission):
     """
     Custom permission to allow:
-    - Anyone to read (GET, HEAD, OPTIONS)
-    - Owners to update (PUT, PATCH)
-    - No permission for POST or DELETE
+    - Anyone to read (GET, HEAD, OPTIONS) for List, requires authentication for object view
+    - Business user to update (PUT, PATCH) his own offer only
+    - Permission for POST (Business users) or DELETE (offer creator)
     """
 
     def has_permission(self, request, view):

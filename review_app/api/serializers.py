@@ -3,6 +3,11 @@ from ..models import Review
 from django.contrib.auth import get_user_model
 
 class ReviewSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Review objects.
+    Handles validation and serialization of Review data.
+    """
+
     business_user = serializers.PrimaryKeyRelatedField(
         queryset=get_user_model().objects.all()
     )

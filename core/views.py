@@ -8,6 +8,14 @@ from rest_framework import mixins, viewsets
 from django.db.models import Avg
 
 class StatsView(generics.ListAPIView):
+    """
+    API endpoint for listing specific aggregate statistics.
+
+    -review_count = Sum of all Reviews that were placed for business users by customers.
+    -average_rating = Average of all total ratings placed for their reviews
+    -profile_count = Sum of all profiles with the business type
+    -offer_count = Sum of all existing Offers
+    """
     def get(self, request, *args, **kwargs):
         review_count = Review.objects.all().count()
         average_rating = Review.objects.aggregate(avg_rating=Avg("rating"))["avg_rating"]

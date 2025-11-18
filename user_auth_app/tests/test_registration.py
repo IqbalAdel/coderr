@@ -6,7 +6,10 @@ from django.contrib.auth import get_user_model
 from user_auth_app.api.serializers import RegistrationSerializer
 
 class RegistrationTests(APITestCase):
-    
+    """
+    Tests for registering new users.
+
+    """
     def setUp(self):
         self.user = get_user_model().objects.create_user(
             username='exampleUsername',

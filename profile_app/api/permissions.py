@@ -3,9 +3,9 @@ from rest_framework import permissions
 class ProfileEditPermission(permissions.BasePermission):
     """
     Custom permission to allow:
-    - Anyone to read (GET, HEAD, OPTIONS)
-    - Owners to update (PUT, PATCH)
-    - No permission for POST or DELETE
+    - Anyone with authentication to read (GET, HEAD, OPTIONS)
+    - User to update (PUT, PATCH) his own profile only
+    - No permission for POST or DELETE 
     """
 
     def has_permission(self, request, view):

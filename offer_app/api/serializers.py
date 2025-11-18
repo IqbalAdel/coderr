@@ -4,23 +4,39 @@ from profile_app.api.serializers import ProfileDetailSerializer
 from profile_app.models import Profile
 
 class DetailSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Offer-Detail objects.
+    Handles validation and serialization of Offer-Detail data.
+    """
     offer_type = serializers.ChoiceField(choices=[('basic', 'Basic'), ('standard', 'Standard'), ('premium', 'Premium')], required=True)
     class Meta:
         model = OfferDetail
         fields = ['id','title','revisions', 'delivery_time_in_days', 'price', 'features', 'offer_type']
 
 class DetailHyperSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Serializer for Offer-Detail objects.
+    Shows Offer-Details with a hyper-link towards the Detail-Object
+    """
     url = serializers.HyperlinkedIdentityField(view_name='offerdetails-detail', lookup_field='pk')
     class Meta:
         model = OfferDetail
         fields = ['id', 'url']
 
 class UserDetailSerializer(ProfileDetailSerializer):
+    """
+    Serializer for User-Detail objects.
+    Handles validation and serialization of specific user data.
+    """
     class Meta:
         model= Profile
         fields = ['first_name', 'last_name', 'username']
 
 class OfferCreateSerializer(serializers.ModelSerializer): 
+    """
+    Serializer for Offer objects.
+    Handles validation and serialization of Offer data when creating an Offer only.
+    """
     user = serializers.PrimaryKeyRelatedField(
         read_only=True
     )
@@ -58,7 +74,11 @@ class OfferCreateSerializer(serializers.ModelSerializer):
             OfferDetail.objects.create(offer=offer, **detail_data)
         return offer
     
-class OfferListSerializer(serializers.ModelSerializer): 
+class OfferListSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Offer objects.
+    Handles validation and serialization of Offer data when listing offers only.
+    """ 
     user = serializers.PrimaryKeyRelatedField(
         read_only=True
     )
@@ -86,11 +106,19 @@ class OfferListSerializer(serializers.ModelSerializer):
         return min(detail.delivery_time_in_days for detail in details)
 
 class OffersDetailSerializer(OfferListSerializer):
+    """
+    Serializer for Offer objects.
+    Handles validation and serialization of Offer data for specific offers only.
+    """
     class Meta:
         model = Offer
         fields = ['id','user', 'title', 'image', 'description', 'created_at', 'updated_at', 'details', 'min_price', 'min_delivery_time']
 
 class OfferUpdateSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Offer objects.
+    Handles validation and serialization of Offer data for specific offers only, when updating them.
+    """
     user = serializers.PrimaryKeyRelatedField(
         read_only=True
     )

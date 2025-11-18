@@ -6,6 +6,10 @@ from django.contrib.auth import get_user_model
 from user_auth_app.api.serializers import RegistrationSerializer, LoginAuthTokenSerializer
 
 class LoginTests(APITestCase):
+    """
+    Tests authentication of users when loggin in.
+
+    """
     
     def setUp(self):
         self.user = get_user_model().objects.create_user(

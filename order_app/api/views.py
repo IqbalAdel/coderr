@@ -12,9 +12,18 @@ class CreateListUpdateDestroyViewSet(mixins.CreateModelMixin,
                                 mixins.DestroyModelMixin,
                                 mixins.UpdateModelMixin,
                                 viewsets.GenericViewSet):
+    """
+    Custom ViewsetClass for further use.
+    """
     pass
 
 class OrderViewSet(CreateListUpdateDestroyViewSet):
+    """
+    API endpoint for view of Orders.
+
+    Lists Orders where the user is authenticated user,
+    and allows updating, deleting, creating an order where the requesting user is set as the customer user who made the order.
+    """
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [OrderPermissions]
@@ -26,6 +35,9 @@ class OrderViewSet(CreateListUpdateDestroyViewSet):
         return Order.objects.none()
 
 class OrderCountView(generics.RetrieveAPIView):
+    """
+    API endpoint for view of Order statistic. Shows Order count placed for a specific business user
+    """
     queryset = Order.objects.all()
     permission_classes = [IsAuthenticated]
 
@@ -35,6 +47,9 @@ class OrderCountView(generics.RetrieveAPIView):
         return Response({'order_count': order_count}, status=status.HTTP_200_OK)
     
 class CompletedOrderCountView(generics.RetrieveAPIView):
+    """
+    API endpoint for view of Order statistic. Shows Order count placed for a specific business user, which were completed
+    """
     queryset = Order.objects.all()
     permission_classes = [IsAuthenticated]
 

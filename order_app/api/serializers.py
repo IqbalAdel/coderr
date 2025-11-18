@@ -5,6 +5,10 @@ from profile_app.models import Profile
 from offer_app.models import OfferDetail  
 
 class OrderSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Order objects.
+    Handles validation and serialization of Order data.
+    """
     customer_user = serializers.PrimaryKeyRelatedField(
         read_only=True
     )

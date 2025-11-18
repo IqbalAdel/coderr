@@ -4,6 +4,10 @@ from ..models import Profile
 from django.contrib.auth import get_user_model
 
 class ProfileDetailSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Profile objects.
+    Handles validation and serialization of Profile data.
+    """
     user = serializers.PrimaryKeyRelatedField(
         read_only=True
     )
@@ -18,6 +22,10 @@ class ProfileDetailSerializer(serializers.ModelSerializer):
         return value
 
 class ProfileBusinessSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Profile objects.
+    Handles validation and serialization of Profile data with the business type.
+    """
     user = serializers.PrimaryKeyRelatedField(
         read_only=True
     )
@@ -26,6 +34,10 @@ class ProfileBusinessSerializer(serializers.ModelSerializer):
         fields = ['user', 'username', 'first_name', 'last_name', 'file', 'location', 'tel', 'description', 'working_hours', 'type']
 
 class ProfileCustomerSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Profile objects.
+    Handles validation and serialization of Profile data with the customer type.
+    """
     user = serializers.PrimaryKeyRelatedField(
         read_only=True
     )
