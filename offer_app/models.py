@@ -32,6 +32,3 @@ class OfferDetail(models.Model):
 
     def __str__(self):
         return f"Details for Offer: {self.offer.title}"
-
-
-

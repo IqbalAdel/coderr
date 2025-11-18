@@ -50,7 +50,7 @@ class OffersListView(generics.ListCreateAPIView):
     def get_queryset(self):
         queryset = (
             Offer.objects
-            .annotate(min_price=Min('details__price'))  # 'details' = related_name in OfferDetail
+            .annotate(min_price=Min('details__price'))  
         )
         return queryset
 
@@ -67,4 +67,3 @@ class DetailsView(generics.RetrieveAPIView):
     queryset = OfferDetail.objects.all()
     serializer_class = DetailSerializer
     permission_classes = [IsAuthenticated]
-

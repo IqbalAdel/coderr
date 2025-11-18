@@ -9,17 +9,16 @@ from rest_framework import mixins, viewsets
 
 class CreateListUpdateDestroyViewSet(mixins.CreateModelMixin,
                                 mixins.ListModelMixin,
+                                mixins.RetrieveModelMixin,
                                 mixins.DestroyModelMixin,
                                 mixins.UpdateModelMixin,
                                 viewsets.GenericViewSet):
     pass
 
-
-class ReviewViewSet(CreateListUpdateDestroyViewSet):
+class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [ReviewPermissions]
-    permission_classes = [AllowAny]
 
     def perform_create(self, serializer):
         serializer.save(reviewer=self.request.user)

@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import StatsView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,8 +27,8 @@ urlpatterns = [
     path('api/', include('profile_app.api.urls')),
     path('api/', include('offer_app.api.urls')),
     path('api/', include('order_app.api.urls')),
-    path('api/reviews/', include('review_app.api.urls')),
-    # path('api/base-info', include('review_app.api.urls')),
+    path('api/', include('review_app.api.urls')),
+    path('api/base-info/', StatsView.as_view(), name='stats'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

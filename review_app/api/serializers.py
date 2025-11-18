@@ -1,13 +1,13 @@
 from rest_framework import serializers
 from ..models import Review
-
+from django.contrib.auth import get_user_model
 
 class ReviewSerializer(serializers.ModelSerializer):
     business_user = serializers.PrimaryKeyRelatedField(
-        read_only=True, source='business_user'
+        queryset=get_user_model().objects.all()
     )
     reviewer = serializers.PrimaryKeyRelatedField(
-        read_only=True, source='reviewer'
+        read_only=True
     )
     created_at = serializers.DateTimeField(read_only=True)
     updated_at = serializers.DateTimeField(read_only=True)
@@ -21,3 +21,13 @@ class ReviewSerializer(serializers.ModelSerializer):
                   'description',
                   'created_at', 
                   'updated_at']
+
+    def validate(self, attrs):
+        reviewer = self.context['request'].user
+        business_user = attrs.get('business_user')
+
+        if Review.objects.filter(reviewer=reviewer, business_user=business_user).exists():
+            raise serializers.ValidationError(
+                "You have already reviewed this user."
+            )
+        return attrs

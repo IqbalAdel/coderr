@@ -3,7 +3,6 @@ from ..models import Offer, OfferDetail
 from profile_app.api.serializers import ProfileDetailSerializer
 from profile_app.models import Profile
 
-
 class DetailSerializer(serializers.ModelSerializer):
     offer_type = serializers.ChoiceField(choices=[('basic', 'Basic'), ('standard', 'Standard'), ('premium', 'Premium')], required=True)
     class Meta:
@@ -59,7 +58,6 @@ class OfferCreateSerializer(serializers.ModelSerializer):
             OfferDetail.objects.create(offer=offer, **detail_data)
         return offer
     
-
 class OfferListSerializer(serializers.ModelSerializer): 
     user = serializers.PrimaryKeyRelatedField(
         read_only=True
@@ -86,7 +84,6 @@ class OfferListSerializer(serializers.ModelSerializer):
         if not details:
             return None
         return min(detail.delivery_time_in_days for detail in details)
-
 
 class OffersDetailSerializer(OfferListSerializer):
     class Meta:

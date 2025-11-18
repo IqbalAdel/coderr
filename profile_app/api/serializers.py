@@ -11,7 +11,6 @@ class ProfileDetailSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ['user', 'username', 'first_name', 'last_name', 'file', 'location', 'tel', 'description', 'working_hours', 'type', 'email', 'created_at']
 
-    
     def validate_username(self, value):
         user = self.instance  
         if get_user_model().objects.filter(username=value).exclude(pk=user.pk).exists():

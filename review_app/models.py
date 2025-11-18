@@ -15,5 +15,7 @@ class Review(models.Model):
     )
     rating = models.DecimalField(max_digits=1, decimal_places=0, default=0, blank=False, null=False)
     description = models.TextField(max_length=2000, blank=True, null=False, default='')
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
         return f"Review: {self.reviewer_user.username} to {self.business_user.username}"

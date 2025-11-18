@@ -14,7 +14,6 @@ class CreateListUpdateDestroyViewSet(mixins.CreateModelMixin,
                                 viewsets.GenericViewSet):
     pass
 
-
 class OrderViewSet(CreateListUpdateDestroyViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
@@ -43,4 +42,3 @@ class CompletedOrderCountView(generics.RetrieveAPIView):
         pk = self.kwargs.get('pk')
         completed_order_count = Order.objects.filter(business_user__id=pk, status='completed').count()
         return Response({'completed_order_count': completed_order_count}, status=status.HTTP_200_OK)
-

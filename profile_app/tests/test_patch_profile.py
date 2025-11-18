@@ -6,7 +6,6 @@ from django.contrib.auth import get_user_model
 from ..models import Profile
 from ..api.serializers import ProfileDetailSerializer
 
-
 class PatchSingleProfileTests(APITestCase):
     
     def setUp(self):

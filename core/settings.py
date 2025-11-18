@@ -19,7 +19,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -30,7 +29,6 @@ SECRET_KEY = 'django-insecure-ri7xt)h@*jp0!)ucw6w(vtc(qehpcyv05)ca4%kw#&rl7xf%ll
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -147,5 +145,4 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend'
         ,
     ]
-
 }

@@ -1,5 +1,4 @@
 from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_METHODS
-# from ..models import 
 from rest_framework.exceptions import NotFound, PermissionDenied
 
 class ReviewPermissions(BasePermission):
@@ -23,5 +22,5 @@ class ReviewPermissions(BasePermission):
         if request.method in SAFE_METHODS:
             return request.user and request.user.is_authenticated
         elif request.method in ['PUT', 'PATCH', 'DELETE']:
-            return obj.customer_user == request.user and request.user and request.user.is_authenticated and request.user.type == 'customer'
+            return obj.reviewer == request.user and request.user and request.user.is_authenticated and request.user.type == 'customer'
         return False

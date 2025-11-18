@@ -6,7 +6,6 @@ from django.contrib.auth import get_user_model
 from ..models import Profile
 from ..api.serializers import ProfileDetailSerializer
 
-
 class GetSingleProfileTests(APITestCase):
     
     def setUp(self):
@@ -122,7 +121,6 @@ class GetSingleProfileTests(APITestCase):
         url = reverse('profile-detail', kwargs={'pk': self.profile3.id})
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-
 
     def test_get_profile_correct_content(self):
         url = reverse('profile-detail', kwargs={'pk': self.profile.id}) 

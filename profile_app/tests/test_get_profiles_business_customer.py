@@ -6,7 +6,6 @@ from django.contrib.auth import get_user_model
 from ..models import Profile
 from ..api.serializers import ProfileBusinessSerializer, ProfileCustomerSerializer
 
-
 class GetProfileListsTests(APITestCase):
     
     def setUp(self):
