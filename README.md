@@ -2,7 +2,8 @@
 
 A **Django REST Framework** based backend for managing orders, offers, user profiles, and reviews.  
 Users can create offers, place orders, review business users, and manage their profiles.  
-This project provides a **fully functional REST API** ready to connect to a frontend (e.g., Angular, React, or Vue).
+This project provides a **fully functional REST API** ready to connect to a frontend (e.g., Angular, React, or Vue). 
+The Frontend is provided by the Developer Akademie and can be found here: https://github.com/Developer-Akademie-Backendkurs/project.Coderr
 
 ---
 
